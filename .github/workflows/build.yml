@@ -1,0 +1,24 @@
+name: Build SNES ROM
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup PVSnesLib Environment
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/work devkits/pvsneslib make
+
+      - name: Upload SFC ROM
+        uses: actions/upload-artifact@v3
+        with:
+          name: BattleRoyale-SNES
+          path: "*.sfc"
+          
