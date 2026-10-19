@@ -1,9 +1,8 @@
-
 name: Build SNES ROM
 
 on:
   push:
-    branches: [ "principal", "main", "master" ]
+    branches: [ "main", "principal", "master" ]
   workflow_dispatch:
 
 jobs:
@@ -11,14 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      - name: Build ROM using PVSnesLib
+      - name: Build ROM with PVSnesLib
         run: |
-          docker run --rm -v ${{ github.workspace }}:/work devkits/pvsneslib sh -c "816-tcc -c main.c -o main.obj && constify main.obj && 816-opt main.obj && 816-as main.obj -o main.o && sneslink main.o -o game.sfc" || true
+          docker run --rm -v ${{ github.workspace }}:/work devkits/pvsneslib sh -c "816-tcc -I/opt/pvsneslib/pvsneslib/include -c main.c -o main.obj && constify main.obj && 816-opt main.obj && 816-as main.obj -o main.o && sneslink main.o -o game.sfc" || make || true
 
       - name: Upload SFC ROM
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: BattleRoyale-SNES
           path: "*.sfc"
