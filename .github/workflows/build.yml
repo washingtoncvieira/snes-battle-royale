@@ -14,7 +14,7 @@ jobs:
 
       - name: Build ROM using PVSnesLib
         run: |
-          docker run --rm -v ${{ github.workspace }}:/work -w /work devkits/pvsneslib make
+          docker run --rm -v ${{ github.workspace }}:/work -w /work devkits/pvsneslib sh -c "make"
 
       - name: Upload SFC ROM
         uses: actions/upload-artifact@v4
