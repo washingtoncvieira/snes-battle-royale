@@ -12,9 +12,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build ROM using PVSnesLib
+      - name: Setup environment and Build ROM
         run: |
-          docker run --rm -v ${{ github.workspace }}:/work -w /work devkits/pvsneslib sh -c "make"
+          echo "A descarregar o PVSnesLib..."
+          git clone --depth 1 https://github.com/alekmaul/pvsneslib.git /opt/pvsneslib
+          export PVSNESLIB_HOME=/opt/pvsneslib/pvsneslib
+          
+          echo "A compilar o jogo..."
+          make
 
       - name: Upload SFC ROM
         uses: actions/upload-artifact@v4
