@@ -14,11 +14,11 @@ jobs:
 
       - name: Build ROM using PVSnesLib
         run: |
-          docker run --rm -v ${{ github.workspace }}:/work devkits/pvsneslib sh -c "make" || true
+          docker run --rm -v ${{ github.workspace }}:/work devkits/pvsneslib make
 
       - name: Upload SFC ROM
         uses: actions/upload-artifact@v4
         with:
           name: BattleRoyale-SNES
-          path: "*.sfc"
-          
+          path: game.sfc
+
